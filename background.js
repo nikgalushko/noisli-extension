@@ -65,9 +65,10 @@ function init (sound, sendResponse) {
     sendResponse({volume: currentSounds[sound].getCurrentVolume() * 100});
 }
 
-function destroy(sound) {
+function destroy(sound, sendResponse) {
     //TODO может удалять объект Audio ?!
     currentSounds[sound].stop();
+    sendResponse({});
 }
 
 function changeVolumeForSound(sound, value) {
@@ -85,7 +86,7 @@ chrome.extension.onMessage.addListener(
             init(request.sound, sendResponse);
             break;    
         case "stop":
-            destroy(request.sound);
+            destroy(request.sound, sendResponse);
             break;
         case "range":
             changeVolumeForSound(request.sound, request.value);
