@@ -35,7 +35,20 @@ function stop(event) {
 }
 
 function changeVolume(event) {
-    chrome.extension.sendMessage({directive: event.target.id, value: event.target.value, sound: event.target.dataset.for}, function                 (response) {});
+    chrome.extension.sendMessage({directive: event.target.classList[0], value: event.target.value, sound: event.target.dataset.for}, function                 (response) {});
+}
+
+
+function setEventForAllElements(request) {
+    var event = request.event || "click";
+    var func = request.func || function () { console.log("Are you sure ?!"); }
+    var className = request.className || "";
+    
+    var elements = document.getElementsByClassName(className);
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener(event, func);
+    }
+    
 }
 
 function initStyle () {
@@ -58,16 +71,19 @@ function initStyle () {
 
 document.addEventListener('DOMContentLoaded', function () {
     initStyle();
-    var elements = document.getElementsByClassName("play");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].addEventListener("click", play);
-    }
-    elements = document.getElementsByClassName("stop");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].addEventListener("click", stop);
-    }
-    elements = document.getElementsByClassName("range");
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].addEventListener("change", changeVolume);
-    }
+    setEventForAllElements({
+        event: "click",
+        func: play,
+        className: "play"
+    });
+       setEventForAllElements({
+        event: "click",
+        func: stop,
+        className: "stop"
+    });
+    setEventForAllElements({
+        event: "change",
+        func: changeVolume,
+        className: "range"
+    });
 });
