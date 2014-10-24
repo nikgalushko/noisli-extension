@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Music</title>
+        <meta charset="utf-8">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script type="text/javascript" src="player.js"></script>
+        <script type="text/javascript" src="popup.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+        <div class="table">
+            <div class="tr">
+                <div class="td">
+                    <button class="play" id="play_rain" data-sound="rain">Play rain</button>   
+                    <button class="stop" id="stop_rain" data-sound="rain">Stop rain</button>
+                </div>
+                <div class="td">
+                    <input type = "range" min="0" max="100" id = "rain_range" step="1" data-for="rain" class="range">
+                </div>
+            </div>
+            <div class="tr">
+                <div class="td">
+                    <button class="play" id="play_tunderstorm" data-sound="tunderstorm">Play tunder</button><br>
+                    <button class="stop" id="stop_tunderstorm" data-sound="tunderstorm">Stop tunder</button>
+                </div>
+                <div class="td">
+                    <input type = "range" min="0" max="100" id = "tunder_range" step="1" data-for="tunderstorm" class="range">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
