@@ -59,6 +59,8 @@ function getCurrentVolumeForSound(forSound) {
 
 function init (sound, sendResponse) {
     console.log(sound);
+    if (currentSounds[sound])
+        return;
     currentSounds[sound] = new Player(sound);
     currentSounds[sound].play();
     currentSounds[sound].changeVolume(defaultVolume / 100);
@@ -93,7 +95,10 @@ chrome.extension.onMessage.addListener(
             break;
         case "getCurrentVolume":
             sendResponse(getCurrentVolumeForSound(request.forSound));
-            break;                
+            break; 
+        case "save_context":
+            sendResponse({status: true});
+            break;
         }
     }
 );

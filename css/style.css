@@ -29,3 +29,18 @@ input[type='range']::-webkit-slider-thumb {
 .stop {
     display: none;
 }
+
+.done {
+    width: 100px;
+    margin: auto;
+    text-align: center;
+    border: 2px solid black; /* Параметры рамки */
+    padding: 15px; /* Поля вокруг текста */
+}
+
+.error {
+    width: 100px;
+    text-align: center;
+    padding: 15px;
+    border: 2px solid red;
+}

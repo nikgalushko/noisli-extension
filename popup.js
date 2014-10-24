@@ -69,6 +69,20 @@ function initStyle () {
     }
 }
 
+function save(event) {
+    chrome.extension.sendMessage({directive: "save_context"}, function(response) {
+        event.toElement.style.display = "none";
+        var message = document.getElementById("message");
+        message.className = response.status ? "done" : "error";
+        message.style.display = "block";
+        message.textContent = response.status ? "Done!" : "Error!";
+        setTimeout(function () {
+            document.getElementById("save_context").style.display = "block";
+            document.getElementById("message").style.display = "none";
+        }, 5 * 1000);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     initStyle();
     setEventForAllElements({
@@ -86,4 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
         func: changeVolume,
         className: "range"
     });
+    
+    document.getElementById("save_context").addEventListener("click", save);
+    
 });
