@@ -70,11 +70,23 @@ function init (sound, sendResponse) {
 function destroy(sound, sendResponse) {
     //TODO может удалять объект Audio ?!
     currentSounds[sound].stop();
+    delete currentSounds[sound];
     sendResponse({});
 }
 
 function changeVolumeForSound(sound, value) {
     currentSounds[sound].changeVolume(value / 100);
+}
+
+function getContext(sendResponse) {
+    var items = {};
+    for (var key in sounds) {
+        if (currentSounds[key]) {
+            items[key] = currentSounds[key].getCurrentVolume() * 100;
+            console.log("key: " + key + " value: " + items[key]);
+        }
+    }
+    sendResponse({status: true, context: items});
 }
 
 var currentSounds = {};
@@ -97,7 +109,7 @@ chrome.extension.onMessage.addListener(
             sendResponse(getCurrentVolumeForSound(request.forSound));
             break; 
         case "save_context":
-            sendResponse({status: true});
+            getContext(sendResponse);
             break;
         }
     }

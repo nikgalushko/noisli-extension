@@ -10,7 +10,8 @@
 
   "permissions": [
     "tabs",
-    "http://*/*"
+    "http://*/*",
+    "storage"
   ],
   "browser_action": {
     "default_icon": "icon.png",
