@@ -57,13 +57,14 @@ function getCurrentVolumeForSound(forSound) {
     }
 }
 
-function init (sound, sendResponse) {
+function init (sound, sendResponse, volume) {
     console.log(sound);
     if (currentSounds[sound])
         return;
+    var vol = volume || defaultVolume;
     currentSounds[sound] = new Player(sound);
     currentSounds[sound].play();
-    currentSounds[sound].changeVolume(defaultVolume / 100);
+    currentSounds[sound].changeVolume(vol / 100);
     sendResponse({volume: currentSounds[sound].getCurrentVolume() * 100});
 }
 
@@ -89,6 +90,21 @@ function getContext(sendResponse) {
     sendResponse({status: true, context: items});
 }
 
+
+function load(sendResponse) {
+    chrome.storage.sync.get(null, function(items) {
+        var status = false;
+        console.log(items);
+        for (var key in items) {
+            status = true;
+            console.log("Get key:" + key + " value:" + items[key]);
+            init(key, sendResponse, items[key]);
+        }
+        console.log("Status:" + status);
+        sendResponse({stat: status});
+    });
+}
+
 var currentSounds = {};
 var defaultVolume = 20;
 
@@ -110,6 +126,9 @@ chrome.extension.onMessage.addListener(
             break; 
         case "save_context":
             getContext(sendResponse);
+            break;
+        case "load_play":
+            load(sendResponse);
             break;
         }
     }

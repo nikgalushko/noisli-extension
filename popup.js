@@ -88,6 +88,21 @@ function save(event) {
     });
 }
 
+
+function load(event) {
+    chrome.extension.sendMessage({directive: "load_play"}, function(response) {
+            event.toElement.style.display = "none";
+            var message = document.getElementById("message");
+            message.className = response.stat ? "done" : "error";
+            message.style.display = "block";
+            message.textContent = response.stat ? "Done!" : "Error!";
+            setTimeout(function () {
+                document.getElementById("load_context").style.display = "block";
+                document.getElementById("message").style.display = "none";
+            }, 5 * 1000);        
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     initStyle();
     setEventForAllElements({
@@ -107,5 +122,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     document.getElementById("save_context").addEventListener("click", save);
-    
+    document.getElementById("load_context").addEventListener("click", load);
 });
