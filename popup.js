@@ -96,10 +96,18 @@ function load(event) {
             message.className = response.stat ? "done" : "error";
             message.style.display = "block";
             message.textContent = response.stat ? "Done!" : "Error!";
+            var plays = document.getElementsByClassName("play");
+            //alert(plays[0]);
+            for (var i = 0; i < plays.length; i++) {
+                if (response.currentSounds[plays[i].dataset.sound]) {
+                    plays[i].click();
+                }
+            }
+        
             setTimeout(function () {
                 document.getElementById("load_context").style.display = "block";
                 document.getElementById("message").style.display = "none";
-            }, 5 * 1000);        
+            }, 3 * 1000);        
     });
 }
 

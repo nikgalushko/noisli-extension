@@ -11,7 +11,7 @@
     "trainnight": ,
     "fanshop": */
 var sounds = {
-    "rain": "https://ec-media.soundcloud.com/MAmhowtI39FC.128.mp3?f10880d39085a94a0418a7ef69b03d522cd6dfee9399eeb9a522009f67f8ba3b68cb079f18aa8051224009267663545094b50d8e23bd468050c92f56ec0f3fb58d4b59122b&AWSAccessKeyId=AKIAJNIGGLK7XA7YZSNQ&Expires=1413804740&Signature=M%2B2DDT1K61zhDe%2Fsd9ecljqCeBQ%3D",
+    "rain": "https://ec-media.soundcloud.com/MAmhowtI39FC.128.mp3?f10880d39085a94a0418a7ef69b03d522cd6dfee9399eeb9a522009867fab738f8a6b556ed69fc026b1fb9f5cc483081620e1a7a848ed12505d03d80d2b38fc3a609cc67c8&AWSAccessKeyId=AKIAJNIGGLK7XA7YZSNQ&Expires=1414829442&Signature=n0%2B4UKw6BtXbdhDntdqUH6ihJRs%3D",
     "tunderstorm": "https://ec-media.soundcloud.com/bwkh7FoYBvBL.128.mp3?f10880d39085a94a0418a7ef69b03d522cd6dfee9399eeb9a522009f66f9bf34e7e18c54aa4b03246cc0b85aa6802493c1548eb033d66fde0a5b4abc91a12c597ed322ec65&AWSAccessKeyId=AKIAJNIGGLK7XA7YZSNQ&Expires=1413911858&Signature=S4Q0a32g7b6F%2Fn7ulxYV8bdLtqI%3D"
 };
 
@@ -65,7 +65,7 @@ function init (sound, sendResponse, volume) {
     currentSounds[sound] = new Player(sound);
     currentSounds[sound].play();
     currentSounds[sound].changeVolume(vol / 100);
-    sendResponse({volume: currentSounds[sound].getCurrentVolume() * 100});
+    sendResponse({volume: currentSounds[sound].getCurrentVolume() * 100, for: sound});
 }
 
 function destroy(sound, sendResponse) {
@@ -95,14 +95,15 @@ function load(sendResponse) {
     chrome.storage.sync.get(null, function(items) {
         var status = false;
         console.log(items);
+        var currSounds = {};
         for (var key in items) {
             status = true;
             console.log("Get key:" + key + " value:" + items[key]);
-            init(key, sendResponse, items[key]);
+            currSounds[key] = items[key];
         }
         console.log("Status:" + status);
-        sendResponse({stat: status});
     });
+            sendResponse({stat: true, currentSounds: {rain: 100}});
 }
 
 var currentSounds = {};
